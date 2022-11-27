@@ -1,0 +1,55 @@
+@startuml CompositePattern
+
+class Component {
+    + {abstract} operation()=0 : void
+}
+
+class Composite {
+    + getChild(int index) : Component *
+    + add(Component *) : void
+    + remove(int index) : void
+    + operation() : void
+    - m_Childs : std::vector<Component*>
+}
+Composite .up.|> Component : implementation
+
+class Leaf {
+    + operation() : void
+}
+Leaf .up.|> Component : implementation
+
+client .up.> Composite : dependency
+client .up.> Leaf : dependency
+
+note left of client
+    This is <font color="Red">"safe mode"</font>.
+    Distinguish structure between leaf and branch.
+    <font color="Red">Leaf and abstract base Component</font> can not
+    manage subobjects.
+    Only branch structure can do this.
+end note
+
+note left of Component
+    The common interface of leaf and branch.
+    It can provide some default implementation.
+    In <font color="Blue">Transparent mode</font>, it also declare interface
+    to access and manager subobjects;
+    In <font color="Blue">Safe mode</font>, branch structure manage sub-
+    objects instead of Component.
+end note
+
+note right of Leaf
+    It's a leaf node object in a composition.
+    It has no child nodes and is used to inherit
+    or implement abstract components
+end note
+
+note right of Composite
+    It's a branch node object in the composition.
+    It has child nodes, which are used to inherit
+    and implement abstract components.
+    Its <b>main function</b> is to store and <b>manage subassemblies</b>,
+    usually including add(), remove(), getchild(), etc.
+end note
+
+@enduml

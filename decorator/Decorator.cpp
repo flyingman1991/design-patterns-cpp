@@ -18,10 +18,10 @@
 class Component
 {
 public:
-  virtual ~Component() {}
-  
-  virtual void operation() = 0;
-  // ...
+    virtual ~Component() {}
+
+    virtual void operation() = 0;
+    // ...
 };
 
 /*
@@ -32,13 +32,13 @@ public:
 class ConcreteComponent : public Component
 {
 public:
-  ~ConcreteComponent() {}
-  
-  void operation()
-  {
-    std::cout << "Concrete Component operation" << std::endl;
-  }
-  // ...
+    ~ConcreteComponent() {}
+
+    void operation()
+    {
+        std::cout << "Concrete Component operation" << std::endl;
+    }
+    // ...
 };
 
 /*
@@ -49,18 +49,18 @@ public:
 class Decorator : public Component
 {
 public:
-  ~Decorator() {}
-  
-  Decorator( Component *c ) : component( c ) {}
-  
-  virtual void operation()
-  {
-    component->operation();
-  }
-  // ...
+    ~Decorator() {}
+
+    Decorator( Component *c ) : component( c ) {}
+
+    virtual void operation()
+    {
+        component->operation();
+    }
+    // ...
 
 private:
-  Component *component;
+    Component *component;
 };
 
 /*
@@ -71,42 +71,48 @@ private:
 class ConcreteDecoratorA : public Decorator
 {
 public:
-  ConcreteDecoratorA( Component *c ) : Decorator( c ) {}
-  
-  void operation()
-  {
-    Decorator::operation();
-    std::cout << "Decorator A" << std::endl;
-  }
-  // ...
+    ConcreteDecoratorA( Component *c ) : Decorator( c ) {}
+
+    void operation()
+    {
+        Decorator::operation(); // call basic functions
+        std::cout << "Decorator A" << std::endl; // call additional functions
+    }
+    // ...
 };
 
 class ConcreteDecoratorB : public Decorator
 {
 public:
-  ConcreteDecoratorB( Component *c ) : Decorator( c ) {}
-  
-  void operation()
-  {
-    Decorator::operation();
-    std::cout << "Decorator B" << std::endl;
-  }
-  // ...
+    ConcreteDecoratorB( Component *c ) : Decorator( c ) {}
+
+    void operation()
+    {
+        Decorator::operation(); // call basic functions
+        std::cout << "Decorator B" << std::endl; // call additional functions
+    }
+    // ...
 };
 
 
 int main()
 {
-  ConcreteComponent  *cc = new ConcreteComponent();
-  ConcreteDecoratorB *db = new ConcreteDecoratorB( cc );
-  ConcreteDecoratorA *da = new ConcreteDecoratorA( db );
-  
-  Component *component = da;
-  component->operation();
-  
-  delete da;
-  delete db;
-  delete cc;
-  
-  return 0;
+    // component calls operation
+    Component *cc = new ConcreteComponent();
+    if (nullptr != cc)
+    {
+        cc->operation();
+    }
+
+    // decorator calls operation
+    Component *db = new ConcreteDecoratorB( cc );
+    if (nullptr != db)
+    {
+        db->operation();
+    }
+
+    delete db;
+    delete cc;
+
+    return 0;
 }

@@ -1,0 +1,49 @@
+@startuml ClassAdapter
+
+skinparam BackgroundColor transparent
+
+interface Target {
+    + {abstract} ~Target()
+    + {abstract} request()=0 : void
+}
+
+class Adaptee {
+    + specificRequest() : void
+}
+
+class Adapter {
+    + {abstract} ~Adapter()
+    + {abstract} request() : void
+}
+
+Adapter .up.|> Target : implement or generalization
+Adapter -up-|> Adaptee : private generalization
+
+client ..> Target : dependency
+
+note left of client
+    Target *t = new Adapter();
+    t->request();
+end note
+
+note right of Adaptee
+    Adaptee is an old class who owns
+    old <font color="OrangeRed">specific implementation</font>.
+    This class is a real working class.
+end note
+
+note right of Target
+    Target is a new<font color="OrangeRed"> exposed interface</font>.
+end note
+
+note bottom of Adapter
+    Private implement is just one way, which
+    means "has-a" relationship.
+    The derived class inherits the concrete
+    methods of the base class.
+    <b>Private inheritance  always be replayed by
+    dependency.</b>
+end note
+
+
+@enduml

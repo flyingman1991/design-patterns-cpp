@@ -1,0 +1,70 @@
+@startuml CommandPattern
+
+class Receiver {
+    + action() : void
+}
+
+interface Command {
+    + {abstract} ~Command()
+    + {abstract} execute()=0 : void
+    # Command()
+}
+
+class ConcreteCommand {
+    + ConcreteCommand()
+    + ~ConcreteCommand()
+    + execute() : void
+    - receiver : Receiver *
+}
+
+ConcreteCommand .up|> Command : implementation
+ConcreteCommand "1" o--> "1" Receiver : aggregation
+
+class Invoker {
+    + set(Command *c) : void
+    + confirm() : void
+    - command : Command *
+}
+
+Invoker "1" o--> "many" Command : aggregation
+
+client ..> Command : dependency
+client ..> Invoker : dependency
+
+note left of client
+    Encapsulate a request as an object to separate
+    the responsibility between issuing the request
+    from executing the request.
+    Thus, the two communicate through the command object,
+    which is convenient to store, transfer, call, add
+    and manage the command object.
+end note
+
+note left of Command
+    Declare the interface to execute the command,
+    and have the abstract method execute() to
+    execute the command.
+end note
+
+note right of ConcreteCommand
+    Concrete implementation class of the <font color="Red">command</font> class.
+    It owns the receiver object and completes the operation
+    to be executed by calling the receiver's function.
+    <font color="red">There might be many CONCRETE Commmand object</font>
+    <font color="red">to implement COMMAND interface</font>
+end note
+
+note left of Receiver
+    Execute relevant operation of Command, it is
+    real implementer to the concrete <font color="Red">Command</font>
+    object bussiness.
+end note
+
+note right of Invoker
+    It is the sender of the request.
+    It usually has many command objects and
+    executes the relevant request by accessing the command object.
+    It does not directly access the receiver.
+end note
+
+@enduml

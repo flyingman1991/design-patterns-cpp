@@ -47,7 +47,9 @@ public:
 class Adapter : public Target
 {
 public:
-  Adapter() : adaptee() {}
+  Adapter(Adaptee* adaptee)   //constructor injection
+    : m_adaptee(adaptee)
+  {}
   
   ~Adapter()
   {
@@ -62,7 +64,7 @@ public:
   // ...
 
 private:
-  Adaptee *adaptee;
+  Adaptee *m_adaptee;
   // ...
 };
 

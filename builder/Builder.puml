@@ -1,0 +1,62 @@
+@startuml BuilderPattern
+
+skinparam BackgroundColor transparent
+
+note as Note_1
+    <font color="Blue">When there are many constructor for a class,</font>
+    <font color="Blue">consider <b>Builder Pattern</b>.</font>
+end note
+
+class Product {
+    + makeA(const std::string &part) : void
+    + makeB(const std::string &part) : void
+    + makeC(const std::string &part) : void
+    + describe() : std::string
+    - partA : std::string
+    - partB : std::string
+    - partC : std::string
+}
+
+class Builder {
+    + {abstract} buildPartA()=0 : void
+    + {abstract} buildPartB()=0 : void
+    + {abstract} buildPartC()=0 : void
+    + getProduct() : Product
+    # m_Product : Product
+}
+
+class ConcreteBuilderX {
+    + buildPartA() : void
+    + buildPartB() : void
+    + buildPartC() : void
+}
+
+class ConcreteBuilderY {
+    + buildPartA() : void
+    + buildPartB() : void
+    + buildPartC() : void
+}
+
+ConcreteBuilderX -up-|> Builder : generalization
+ConcreteBuilderY -up-|> Builder : generalization
+ConcreteBuilderX --> Product : association
+ConcreteBuilderY --> Product : association
+
+class Director {
+    + setBuilder(Builder* ) : void
+    + construct() : void
+    - m_Builder : Builder*
+}
+
+Director "1" o--> "many" Builder : association
+
+note left of Director
+    Director can own different kinds of concrete builder,
+    which is via holding the pointers of interface.
+end note
+
+note left of Builder
+    Abstract builder owns concrete product,
+    or put this product into concrete builder.
+end note
+@enduml

@@ -1,0 +1,35 @@
+@startuml ObjectAdapter
+
+skinparam BackgroundColor transparent
+
+interface Target {
+    + {abstract} ~Target()
+    + {abstract} request()=0 : void
+}
+
+class Adaptee {
+    + specificRequest() : void
+}
+
+class Adapter {
+    + {abstract} ~Adapter()
+    + {abstract} request() : void
+}
+
+Adapter -up-> Adaptee : association
+Adapter .up.|> Target : implement
+client ..> Target : dependency
+
+note bottom of Adapter
+    Adapter can get an adaptee when it is created,
+    which is named <font color="Orchid">construction injection</font>.
+    An adapter can own many Adaptee objects, and
+    switch them whenever.
+end note
+
+note left of client
+    Target *t = new Adapter();
+    t->request();
+end note
+
+@enduml

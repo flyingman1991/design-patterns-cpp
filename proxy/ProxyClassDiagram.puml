@@ -1,0 +1,60 @@
+@startuml ProxyPattern
+
+skinparam BackgroundColor transparent
+
+interface Subject {
+    + {abstract} request()=0 : void
+}
+
+class RealSubject {
+    + request() override : void
+}
+
+RealSubject .up.|> Subject : Implementation
+
+class Proxy {
+    - subject : RealSubject *
+    + request() override : void
+}
+
+note right of Proxy
+    Proxy often create concrete subject <b>inside</b>.
+    Don't let client see real subject.
+    <font color="red">For example:</font>
+        Proxy() {
+            if (nullptr == subject)
+                subject = new RealSubject()
+            ...
+        }
+
+    Sometimes, <b>construction or setter injection</b>
+    is also okay.
+    Proxy isolates client and concrete subject.
+    When extending functions, modify Proxy instead
+    of concrete subject
+end note
+
+Proxy .up.|> Subject : Implementation
+Proxy o-left-> RealSubject : Dependency
+client ..|> Subject : Dependency
+
+note right of  client
+    <i>Subject *pSubject = new Proxy</i>
+    <i>pSubject->request()</i>
+
+    When pSubject calls request, inner concrete subject
+    deal with this request.
+end note
+
+note bottom of RealSubject
+    It realizes the specific business of abstract subject.
+    It is the concrete object represented by the proxy object,
+    and the object to be referenced finally.
+end note
+
+note right of Subject
+    Declare business interface implemented by real subject
+    and proxy object.
+end note
+
+@enduml

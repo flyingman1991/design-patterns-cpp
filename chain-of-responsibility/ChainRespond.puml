@@ -1,0 +1,45 @@
+@startuml ChainResposibilityDiagram
+
+class Handler {
+    - successor : Handler*
+    + setHandler(Handler *s) ：void
+    + getHandler() ：Handler*
+    + {abstract} handleRequest() ：void
+}
+
+Handler o--> Handler : aggregation
+
+class ConcreteHandler1 {
+    + handleRequest() : void
+}
+
+
+class ConcreteHandler2 {
+    + handleRequest() : void
+}
+
+ConcreteHandler1 -up-|> Handler : generalization
+ConcreteHandler2 -up-|> Handler : generalization
+client ..> Handler
+
+note right of client
+    The client creates concreate <b>Handlers</b> (via base <b>Handler</b> pointer).
+    And establish responsibility chain by calling Handler's setHandler() method.
+    <b>Example<b>:
+        <font color="blue"><i>Handler handler1 = new ConcreteHandler1();</i></font>
+        <font color="blue"><i>Handler handler2 = new ConcreteHandler2();</i></font>
+        <font color="blue"><i>handler1.setNext(handler2);</i></font>
+end note
+
+note right of Handler
+    Abstract base class, offering <i>virtual</i> <b>handleRequest<b>
+    method to deal with specific affairs
+end note
+
+note bottom of ConcreteHandler2
+    Concrete Handler class implements <b>handleRequest</b> method,
+    Each concrete handler might own next successor,
+    Usually, there is jugement whether the request can be processed.
+end note
+
+@enduml

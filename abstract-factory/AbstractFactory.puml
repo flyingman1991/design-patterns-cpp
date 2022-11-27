@@ -1,0 +1,72 @@
+@startuml AbstractFactory
+abstract class ProductA {
+    + {abstract} ~ProductA();
+    + {abstract} const char* getName() = 0;
+}
+
+class ConcreteProductAX {
+    + ~ConcreteProductAX();
+    + const char* getName() override;
+}
+
+class ConcreteProductAY {
+    + ~ConcreteProductAY();
+    + const char* getName() override;
+}
+
+ConcreteProductAX -up-|> ProductA : Generalization
+ConcreteProductAY -up-|> ProductA : Generalization
+
+abstract class ProductB {
+    + {abstract} ~ProductA();
+    + {abstract} const char* getName() = 0;
+}
+
+class ConcreteProductBX {
+    + ~ConcreteProductBX();
+    + const char* getName() override;
+}
+
+class ConcreteProductBY {
+    + ~ConcreteProductBY();
+    + const char* getName() override;
+}
+
+ConcreteProductBX -up-|> ProductB : Generalization
+ConcreteProductBY -up-|> ProductB : Generalization
+
+abstract class AbstractFactory {
+    + {abstract} ~AbstractFactory();
+    + {abstract} ProductA *createProductA() = 0;
+    + {abstract} ProductB *createProductB() = 0;
+}
+
+class ConcreteFactoryX {
+    + ~ConcreteFactoryX();
+    + ProductA *createProductA() override;
+    + ProductB *createProductB() override;
+    note right
+    create AX and BX
+    end note
+}
+
+class ConcreteFactoryY {
+    + ~ConcreteFactoryY();
+    + ProductA *createProductA() override;
+    + ProductB *createProductB() override;
+    note right
+    create AY and BY
+    end note
+}
+
+ConcreteFactoryX --|> AbstractFactory : Generalization
+ConcreteFactoryY --|> AbstractFactory : Generalization
+
+ConcreteFactoryX .up.> ConcreteProductAX : Dependency
+ConcreteFactoryX .up.> ConcreteProductBX : Dependency
+ConcreteFactoryY .up.> ConcreteProductAY : Dependency
+ConcreteFactoryY .up.> ConcreteProductBY : Dependency
+
+client .left.> AbstractFactory
+
+@enduml

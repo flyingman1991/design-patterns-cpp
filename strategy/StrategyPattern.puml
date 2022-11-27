@@ -1,0 +1,42 @@
+@startuml StrategyPattern
+
+skinparam BackgroundColor transparent
+
+abstract Strategy {
+    + {abstract} algorithmInterface()=0 : void
+}
+
+class ConcreteStrategyA {
+    + algorithmInterface() : void
+}
+
+class ConcreteStrategyB {
+    + algorithmInterface() : void
+}
+
+class ConcreteStrategyC {
+    + algorithmInterface() : void
+}
+
+ConcreteStrategyA -up-|> Strategy : generalization
+ConcreteStrategyB -up-|> Strategy : generalization
+ConcreteStrategyC -up-|> Strategy : generalization
+
+class Context {
+    + Context( Strategy* const s )
+    + contextInterface() : void
+    - strategy : Strategy *
+}
+
+Context o--> Strategy : aggreviation
+
+client ..> Context
+client ..> ConcreteStrategyA
+
+note right of client
+    Client should know concrete strategy.
+    However, when there is a new strategy added,
+    Modification is not needed for <b>Context</b>.
+end note
+
+@enduml

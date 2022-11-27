@@ -1,0 +1,55 @@
+@startuml DecoratorPattern
+
+skinparam BackgroundColor transparent
+
+interface Component {
+    + {abstract} operation()=0 : void
+}
+
+note right of Component
+    Define an abstract interface to specify an object
+    ready to receive additional responsibilities
+end note
+
+class ConcreteComponent {
+    + operation() : void
+}
+
+note right of ConcreteComponent
+    Implement abstract components.
+    You implement basic functions here.
+end note
+
+ConcreteComponent .up.|> Component : implementation
+
+class Decorator {
+    - m_Component : Component *
+    + Decorator(Component* comp)
+    + setComponent() : void
+    + operation() : void
+}
+
+note left of Decorator
+    It inherits abstract components and
+    contains instances of specific components.
+    You can extend the functions of specific
+    components through their subclasses.
+end note
+
+Decorator .up.|> Component : implementation
+Decorator o-up-> Component : aggregation
+
+class ConcreteDecoratorA {
+    + operation() : void
+    + AddedOperation() : void
+}
+
+class ConcreteDecoratorB {
+    + operation() : void
+    + AddedOperation() : void
+}
+
+ConcreteDecoratorA -up-|> Decorator : generalization
+ConcreteDecoratorB -up-|> Decorator : generalization
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml Bridge
+
+skinparam BackgroundColor transparent
+
+interface Implementor {
+    + {abstract} ~Implementor()
+    + {abstract} action()=0 : void
+}
+
+class ConcreteImplementorA {
+    + ~ConcreteImplementorA()
+    + action() : void
+}
+
+class ConcreteImplementorB {
+    + ~ConcreteImplementorB()
+    + action() : void
+}
+
+ConcreteImplementorA .up.|> Implementor : implement
+ConcreteImplementorB .up.|> Implementor : implement
+
+interface Abstraction {
+    + {abstract} ~Abstraction()
+    + {abstract} operation()=0 : void
+}
+
+class RefinedAbstraction {
+    + ~RefinedAbstraction()
+    + RefinedAbstraction(Implementor *impl)
+    + operation() : void
+    - implementor : Implementor*
+}
+
+RefinedAbstraction .up.|> Abstraction : implement
+Abstraction -right-> Implementor : association
+client ..> Implementor : dependency
+client ..> Abstraction : dependency
+
+note bottom of RefinedAbstraction
+    1. Also use construction injection here.
+    2. When create RefinedAbstraction, pass 
+       a concrete Implementor.
+    3. <font color="Blue">operation example:</font>
+        <i>void operation()</i>
+        <i>{</i>
+           <i>implementor->action();</i>
+        <i>}</i>
+end note
+
+@enduml
