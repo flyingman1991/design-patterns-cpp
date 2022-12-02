@@ -32,7 +32,7 @@ note right of client
 end note
 
 note right of Handler
-    Abstract base class, offering <i>virtual</i> <b>handleRequest<b>
+    Base class, offering <i>virtual</i> <b>handleRequest<b>
     method to deal with specific affairs
 end note
 

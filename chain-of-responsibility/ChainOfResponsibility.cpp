@@ -17,24 +17,23 @@
 class Handler
 {
 public:
-  virtual ~Handler() {}
-  
-  virtual void setHandler( Handler *s )
-  {
-    successor = s;
-  }
-  
-  virtual void handleRequest()
-  {
-    if (successor != 0)
+    virtual ~Handler() {}
+
+    virtual void setHandler( Handler *s )
     {
-      successor->handleRequest();
+      successor = s;
     }
-  }
-  // ...
+
+    virtual void handleRequest()
+    {
+        if (successor != 0)
+        {
+          successor->handleRequest();
+        }
+    }
 
 private:
-  Handler *successor;
+    Handler *successor;
 };
 
 /*
@@ -44,66 +43,69 @@ private:
 class ConcreteHandler1 : public Handler
 {
 public:
-  ~ConcreteHandler1() {}
-  
-  bool canHandle()
-  {
-    // ...
-    return false;
-  }
-  
-  virtual void handleRequest()
-  {
-    if ( canHandle() )
+    ~ConcreteHandler1() {}
+
+    bool canHandle()
     {
-      std::cout << "Handled by Concrete Handler 1" << std::endl;
+        // specific judgment conditions
+        return false;
     }
-    else
+
+    virtual void handleRequest()
     {
-      std::cout << "Cannot be handled by Handler 1" << std::endl;
-      Handler::handleRequest();
+        if (canHandle())
+        {
+            // handle request and then return
+            std::cout << "Handled by Concrete Handler 1" << std::endl;
+        }
+        else
+        {
+            // can not handle, pass this request to successor
+            std::cout << "Cannot be handled by Handler 1" << std::endl;
+            Handler::handleRequest();
+        }
+        // ...
     }
     // ...
-  }
-  // ...
 };
 
 class ConcreteHandler2 : public Handler
 {
 public:
-  ~ConcreteHandler2() {}
-  
-  bool canHandle()
-  {
-    // ...
-    return true;
-  }
-  
-  virtual void handleRequest()
-  {
-    if ( canHandle() )
+    ~ConcreteHandler2() {}
+
+    bool canHandle()
     {
-      std::cout << "Handled by Handler 2" << std::endl;
+        // specific judgment conditions
+        return true;
     }
-    else
+
+    virtual void handleRequest()
     {
-      std::cout << "Cannot be handled by Handler 2" << std::endl;
-      Handler::handleRequest();
+        if ( canHandle() )
+        {
+            // handle request and then return
+            std::cout << "Handled by Handler 2" << std::endl;
+        }
+        else
+        {
+            // can not handle, pass this request to successor
+            std::cout << "Cannot be handled by Handler 2" << std::endl;
+            Handler::handleRequest();
+        }
+        // ...
     }
-    // ...
-  }
-  
-  // ...
+
 };
 
 
 int main()
 {
-  ConcreteHandler1 handler1;
-  ConcreteHandler2 handler2;
-  
-  handler1.setHandler( &handler2 );
-  handler1.handleRequest();
-  
-  return 0;
+    ConcreteHandler1 handler1;
+    ConcreteHandler2 handler2;
+
+    handler1.setHandler( &handler2 );
+    handler1.handleRequest();
+
+    return 0;
 }
