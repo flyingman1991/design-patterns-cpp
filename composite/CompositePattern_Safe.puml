@@ -21,7 +21,14 @@ Leaf .up.|> Component : implementation
 client .up.> Composite : dependency
 client .up.> Leaf : dependency
 
-note left of client
+note  as N1
+    <b>Use Scenarios:<b>
+    1. representing the <b>partial-overall</b> hierarchy of objects;
+    2. ignore the difference between a composite object and a single object,
+       user can use all objects in the composite structure uniformly.
+end note
+
+note right of client
     This is <font color="Red">"safe mode"</font>.
     Distinguish structure between leaf and branch.
     <font color="Red">Leaf and abstract base Component</font> can not

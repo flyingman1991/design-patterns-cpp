@@ -14,7 +14,6 @@ class Composite {
     + operation() : void
     - m_Childs : std::vector<Component*>
 }
-Composite .up.|> Component : implementation
 
 class Leaf {
     + getChild(int index) : Component *
@@ -22,9 +21,20 @@ class Leaf {
     + remove(int index) : void
     + operation() : void
 }
-Leaf .up.|> Component : implementation
 
+Composite "1" o--> "many" Component : aggregation
+Composite .up.|> Component : implementation
+Leaf .up.|> Component : implementation
 client ..> Component : dependency
+
+note  as N1
+    <b>Use Scenarios:<b>
+    1. representing the <b>partial-overall</b> hierarchy of objects;
+    2. ignore the difference between a composite object and a single object,
+       user can use all objects in the composite structure uniformly.
+    <b>Transparent Mode:</b>
+    The clint does NOT need to distinguish composite or leaf.
+end note
 
 note left of client
     In transparent mode, client see Leaf and Composite
@@ -43,18 +53,19 @@ note left of Component
     objects instead of Component.
 end note
 
-note right of Leaf
+note bottom of Leaf
     It's a leaf node object in a composition.
-    It has no child nodes and is used to inherit
-    or implement abstract components
+    It has no child nodes, but it also needs to
+    implement add()、remove() interface.
+    So usually empty implementation might be used.
 end note
 
 note bottom of Composite
     It's a branch node object in the composition.
     It has child nodes, which are used to inherit
     and implement abstract components.
-    Its <b>main function</b> is to store and <b>manage subassemblies</b>,
-    usually including add(), remove(), getchild(), etc.
+    Its <b>main functions</b> are to <b>store and manage sub-</b>
+    <b>assemblies</b>, usually including add(), remove(), getchild()...
 end note
 
 @enduml
