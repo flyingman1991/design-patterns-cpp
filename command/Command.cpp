@@ -18,11 +18,11 @@
 class Receiver
 {
 public:
-  void action()
-  {
-    std::cout << "Receiver: execute action" << std::endl;
-  }
-  // ...
+    void action()
+    {
+        std::cout << "Receiver: execute the action" << std::endl;
+    }
+    // ...
 };
 
 /*
@@ -32,9 +32,9 @@ public:
 class Command
 {
 public:
-  virtual ~Command() {}
-  virtual void execute() = 0;
-  // ...
+    virtual ~Command() {}
+    virtual void execute() = 0;
+    // ...
 
 protected:
   Command() {}
@@ -48,61 +48,65 @@ protected:
 class ConcreteCommand : public Command
 {
 public:
-  ConcreteCommand( Receiver *r ) : receiver( r ) {}
-  
-  ~ConcreteCommand()
-  {
-    if ( receiver )
+    ConcreteCommand(Receiver *r) : receiver(r) {}
+
+    ~ConcreteCommand()
     {
-      delete receiver;
+        if (receiver)
+        {
+            delete receiver;
+        }
     }
-  }
-  
-  void execute()
-  {
-    receiver->action();
-  }
-  // ...
-  
+
+    void execute()
+    {
+        receiver->action();
+    }
+    // ...
+
 private:
-  Receiver *receiver;
-  // ...
+    Receiver *receiver;
+    // ...
 };
 
 /*
  * Invoker
- * asks the command to carry out the request
+ * asks the command to carry out the request.
+ * There might be many different invokers.
+ * Or an invoker might own many different commands
  */
 class Invoker
 {
 public:
-  void set( Command *c )
-  {
-    command = c;
-  }
-  
-  void confirm()
-  {
-    if ( command )
+    void set(Command *c )
     {
-      command->execute();  
+        command = c;
     }
-  }
-  // ...
+
+    void confirm()
+    {
+        if (command)
+        {
+            command->execute();
+        }
+    }
+    // ...
 
 private:
-  Command *command;
-  // ...
+    Command *command;
+    // ...
 };
 
 
 int main()
 {
-  ConcreteCommand command( new Receiver() );
-  
-  Invoker invoker;
-  invoker.set( &command );
-  invoker.confirm();
-  
-  return 0;
+    // assemble concreteCommand and receiver
+    ConcreteCommand command(new Receiver());
+
+    // create invoker to trigger command execution
+    Invoker invoker;
+    invoker.set(&command);
+    invoker.confirm();
+
+    return 0;
 }

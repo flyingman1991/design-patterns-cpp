@@ -26,18 +26,27 @@ class Invoker {
     - command : Command *
 }
 
-Invoker "1" o--> "many" Command : aggregation
+note left of Invoker
+    It is the sender of the request.
+    It usually has many command objects,
+    and executes the relevant request
+    by accessing the command object.
+    It does <b>NOT directly</b> access the receiver.
+end note
 
-client ..> Command : dependency
+Invoker "1" o--> "many" Command : aggregation
+client ..> ConcreteCommand : dependency
 client ..> Invoker : dependency
 
-note left of client
+note right of client
+    <font color="red"><b>Purpose:</b></font>
     Encapsulate a request as an object to separate
     the responsibility between issuing the request
     from executing the request.
     Thus, the two communicate through the command object,
     which is convenient to store, transfer, call, add
     and manage the command object.
+    <b>Client can assemble ConcreateCOmmand and Receiver.</b>
 end note
 
 note left of Command
@@ -54,17 +63,10 @@ note right of ConcreteCommand
     <font color="red">to implement COMMAND interface</font>
 end note
 
-note left of Receiver
+note right of Receiver
     Execute relevant operation of Command, it is
     real implementer to the concrete <font color="Red">Command</font>
     object bussiness.
-end note
-
-note right of Invoker
-    It is the sender of the request.
-    It usually has many command objects and
-    executes the relevant request by accessing the command object.
-    It does not directly access the receiver.
 end note
 
 @enduml
