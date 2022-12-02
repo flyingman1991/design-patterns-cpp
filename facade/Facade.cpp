@@ -18,34 +18,34 @@
 class SubsystemA
 {
 public:
-  void suboperation()
-  {
-    std::cout << "Subsystem A method" << std::endl;
+    void subOperation()
+    {
+        std::cout << "Subsystem A method" << std::endl;
+        // ...
+    }
     // ...
-  }
-  // ...
 };
 
 class SubsystemB
 {
 public:
-  void suboperation()
-  {
-    std::cout << "Subsystem B method" << std::endl;
+    void subOperation()
+    {
+        std::cout << "Subsystem B method" << std::endl;
+        // ...
+    }
     // ...
-  }
-  // ...
 };
 
 class SubsystemC
 {
 public:
-  void suboperation()
-  {
-    std::cout << "Subsystem C method" << std::endl;
+    void subOperation()
+    {
+        std::cout << "Subsystem C method" << std::endl;
+        // ...
+    }
     // ...
-  }
-  // ...
 };
 
 /*
@@ -56,37 +56,37 @@ public:
 class Facade
 {
 public:
-  Facade() : subsystemA(), subsystemB(), subsystemC() {}
-  
-  void operation1()
-  {
-    subsystemA->suboperation();
-    subsystemB->suboperation();
+    Facade() : subsystemA(), subsystemB(), subsystemC() {}
+
+    void operation_1()
+    {
+        subsystemA->subOperation();
+        subsystemB->subOperation();
+        // ...
+    }
+
+    void operation_2()
+    {
+        subsystemC->subOperation();
+        // ...
+    }
     // ...
-  }
-  
-  void operation2()
-  {
-    subsystemC->suboperation();
-    // ...
-  }
-  // ...
-  
+
 private:
-  SubsystemA *subsystemA;
-  SubsystemB *subsystemB;
-  SubsystemC *subsystemC;
-  // ...
+    SubsystemA *subsystemA;
+    SubsystemB *subsystemB;
+    SubsystemC *subsystemC;
+    // ...
 };
 
 
 int main()
 {
-  Facade *facade = new Facade();
-  
-  facade->operation1();
-  facade->operation2();
-  delete facade;
-  
-  return 0;
+    Facade *facade = new Facade();
+
+    facade->operation_1();
+    facade->operation_2();
+    delete facade;
+
+    return 0;
 }
