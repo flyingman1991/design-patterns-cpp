@@ -1,0 +1,29 @@
+@startuml TemplatePattern
+
+class AbstractClass {
+    + {abstract} ~AbstractClass()
+    + templateMethod() : void
+    + {abstract} primitiveOperation_1() = 0 : void
+    + {abstract} primitiveOperation_2() = 0 : void
+}
+
+class ConcreteClass {
+    + {abstract} ~ConcreteClass()
+    + primitiveOperation_1() : void
+    + primitiveOperation_2() : void
+}
+
+ConcreteClass --|> AbstractClass : generalization
+client ..> ConcreteClass : dependency
+
+note right of AbstractClass
+    <b>templateMethod()</b> defines a fixed process:
+    usually a skeleton of an algorithm.
+end note
+
+note right of ConcreteClass
+    The method of a specific step is implemented by
+    different subclasses.
+end note
+
+@enduml
