@@ -1,0 +1,66 @@
+@startuml FlyWeight
+
+interface  Flyweight {
+    + {abstract} ~Flyweight() {}
+    + {abstract} void operation() = 0;
+}
+
+class UnsharedConcreteFlyweight {
+    - int state
+    + UnsharedConcreteFlyweight(const int intrinsic_state)
+    + ~UnsharedConcreteFlyweight()
+    + void operation()
+}
+
+class ConcreteFlyweight {
+    - int state
+    + ConcreteFlyweight(const int all_state)
+    + ~ConcreteFlyweight()
+    + void operation()
+}
+
+class FlyweightFactory {
+    - std::map<int, Flyweight*> items
+    + Flyweight *getFlyweight(const int key)
+}
+
+UnsharedConcreteFlyweight .up.|> Flyweight : implementation
+ConcreteFlyweight .up.|> Flyweight : implementation
+FlyweightFactory "1" o--> "many" ConcreteFlyweight
+client ..> FlyweightFactory : dependency
+client ..> Flyweight : dependency
+
+note as N1
+    <b>Purpose:</b>
+    Greatly reduce the number of objects to
+    be created by sharing existing objects.
+    Improve the utilization of system resources.
+
+    <b>Advantages:</b>
+    Just save one copy for the same object.
+
+    <b>Disadvantages:</b>
+    1) It is necessary to externalize some states that
+    cannot be shared, which will increase the
+    complexity of the program.
+    2) Reading the external state of the sharing mode
+    will make the running time slightly longer.
+end note
+
+note right of ConcreteFlyweight
+    因为要求细粒度，所以不可避免地会使对象数量多且性质相近;
+    这就需要将对象信息分为两部分：内部状态和外部状态
+    1) 内部状态: 指对象共享出来的信息，存储在享元信息内部，
+    不随环境改变
+    2) 外部状态: 依赖的一个标记，随环境的改变而改变，不可
+    共享
+end note
+
+note bottom of ConcreteFlyweight
+    If concrete flyweight item has been created,
+    return and use it;
+    If not, create a new item and record it,
+    then return and use it.
+end note
+
+@enduml

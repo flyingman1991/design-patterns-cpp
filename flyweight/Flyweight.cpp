@@ -5,7 +5,6 @@
  *
  * Source code is licensed under MIT License
  * (for more details see LICENSE)
- *
  */
 
 #include <iostream>
@@ -19,9 +18,9 @@
 class Flyweight
 {
 public:
-  virtual ~Flyweight() {}
-  virtual void operation() = 0;
-  // ...
+    virtual ~Flyweight() {}
+    virtual void operation() = 0;
+    // ...
 };
 
 /*
@@ -31,20 +30,20 @@ public:
 class UnsharedConcreteFlyweight : public Flyweight
 {
 public:
-  UnsharedConcreteFlyweight( const int intrinsic_state ) :
-    state( intrinsic_state ) {}
-  
-  ~UnsharedConcreteFlyweight() {}
-  
-  void operation()
-  {
-    std::cout << "Unshared Flyweight with state " << state << std::endl;
-  }
-  // ...
-  
+    UnsharedConcreteFlyweight( const int intrinsic_state ) :
+        state(intrinsic_state) {}
+
+    ~UnsharedConcreteFlyweight() {}
+
+    void operation()
+    {
+        std::cout << "Unshared Flyweight with state " << state << std::endl;
+    }
+    // ...
+
 private:
-  int state;
-  // ...
+    int state;
+    // ...
 };
 
 /*
@@ -55,20 +54,20 @@ private:
 class ConcreteFlyweight : public Flyweight
 {
 public:
-  ConcreteFlyweight( const int all_state ) :
-    state( all_state ) {}
-  
-  ~ConcreteFlyweight() {}
-  
-  void operation()
-  {
-    std::cout << "Concrete Flyweight with state " << state << std::endl;
-  }
-  // ...
-  
+    ConcreteFlyweight( const int all_state ) :
+      state( all_state ) {}
+
+    ~ConcreteFlyweight() {}
+
+    void operation()
+    {
+        std::cout << "Concrete Flyweight with state " << state << std::endl;
+    }
+    // ...
+
 private:
-  int state;
-  // ...
+    int state;
+    // ...
 };
 
 /*
@@ -79,38 +78,38 @@ private:
 class FlyweightFactory
 {
 public:
-  ~FlyweightFactory()
-  {
-    for ( auto it = flies.begin(); it != flies.end(); it++ )
+    ~FlyweightFactory()
     {
-        delete it->second;
+        for (auto it = flies.begin(); it != flies.end(); it++)
+        {
+            delete it->second;
+        }
+        flies.clear();
     }
-    flies.clear();
-  }
-  
-  Flyweight *getFlyweight( const int key )
-  {
-    if ( flies.find( key ) != flies.end() )
+
+    Flyweight *getFlyweight(const int key)
     {
-      return flies[ key ];
+        if (flies.find(key) != flies.end())
+        {
+          return flies[key];
+        }
+        Flyweight *fly = new ConcreteFlyweight(key);
+        flies.insert(std::pair<int, Flyweight *>(key, fly) );
+        return fly;
     }
-    Flyweight *fly = new ConcreteFlyweight( key );
-    flies.insert( std::pair<int, Flyweight *>( key, fly ) );
-    return fly;
-  }
-  // ...
+    // ...
 
 private:
-  std::map<int, Flyweight*> flies;
-  // ...
+    std::map<int, Flyweight*> flies;
+    // ...
 };
 
 
 int main()
 {
-  FlyweightFactory *factory = new FlyweightFactory;
-  factory->getFlyweight(1)->operation();
-  factory->getFlyweight(2)->operation();
-  delete factory;
-  return 0;
+    FlyweightFactory *factory = new FlyweightFactory;
+    factory->getFlyweight(1)->operation();
+    factory->getFlyweight(2)->operation();
+    delete factory;
+    return 0;
 }
