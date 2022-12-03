@@ -18,7 +18,7 @@ class ConcreteCommand {
 }
 
 ConcreteCommand .up|> Command : implementation
-ConcreteCommand "1" o--> "1" Receiver : aggregation
+ConcreteCommand "1" o-left-> "1" Receiver : aggregation
 
 class Invoker {
     + set(Command *c) : void
@@ -26,7 +26,7 @@ class Invoker {
     - command : Command *
 }
 
-note left of Invoker
+note right of Invoker
     It is the sender of the request.
     It usually has many command objects,
     and executes the relevant request
@@ -37,6 +37,7 @@ end note
 Invoker "1" o--> "many" Command : aggregation
 client ..> ConcreteCommand : dependency
 client ..> Invoker : dependency
+client ..> Receiver : dependency
 
 note right of client
     <font color="red"><b>Purpose:</b></font>
@@ -55,7 +56,7 @@ note left of Command
     execute the command.
 end note
 
-note right of ConcreteCommand
+note bottom of ConcreteCommand
     Concrete implementation class of the <font color="Red">command</font> class.
     It owns the receiver object and completes the operation
     to be executed by calling the receiver's function.

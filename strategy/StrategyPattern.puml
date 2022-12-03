@@ -6,16 +6,18 @@ abstract Strategy {
     + {abstract} algorithmInterface()=0 : void
 }
 
-class ConcreteStrategyA {
+package ConcreteStrategy {
+    class ConcreteStrategyA {
     + algorithmInterface() : void
 }
 
-class ConcreteStrategyB {
-    + algorithmInterface() : void
-}
+    class ConcreteStrategyB {
+        + algorithmInterface() : void
+    }
 
-class ConcreteStrategyC {
-    + algorithmInterface() : void
+    class ConcreteStrategyC {
+        + algorithmInterface() : void
+    }
 }
 
 ConcreteStrategyA -up-|> Strategy : generalization
@@ -33,7 +35,7 @@ Context o--> Strategy : aggreviation
 client ..> Context
 client ..> ConcreteStrategyA
 
-note right of client
+note left of client
     Client should know concrete strategy.
     However, when there is a new strategy added,
     Modification is not needed for <b>Context</b>.

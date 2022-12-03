@@ -2,31 +2,31 @@
 
 interface Product {
     + {abstract} ~Product()
-    + {abstract} std::string getName() = 0
+    + {abstract} getName() = 0 : std::string
 }
 
 class ConcreteProductA {
     + ~Product()
-    + std::string getName() = 0
+    + getName() = 0 : std::string
 }
 
 class ConcreteProductB {
     + ~Product()
-    + std::string getName() = 0
+    + getName() = 0 : std::string
 }
 
 interface Creator {
     + {abstract} ~Creator()
-    + {abstract} Product* createProductA() = 0
-    + {abstract} Product* createProductB() = 0
-    + {abstract} void removeProduct( Product *product ) = 0
+    + {abstract} createProductA() = 0 : Product*
+    + {abstract} createProductB() = 0 : Product*
+    + {abstract} removeProduct(Product *product) = 0 : void
 }
 
 class ConcreteCreator {
     + ~Creator()
-    + Product* createProductA()
-    + Product* createProductB()
-    + void removeProduct( Product *product )
+    + createProductA() : Product*
+    + createProductB() : Product*
+    + removeProduct(Product *product) : void
 }
 
 ConcreteProductA ..|> Product : implementation
@@ -35,6 +35,7 @@ ConcreteCreator ..|> Creator : implementation
 ConcreteCreator ..> ConcreteProductA : dependency
 ConcreteCreator ..> ConcreteProductB : dependency
 client ..> ConcreteCreator : dependency
+client ..> Product : dependency
 
 note as N1
     This is similar with <b>Simple-Factory</b> method.

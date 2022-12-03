@@ -2,26 +2,26 @@
 
 package ComplexSubsystem #DDDDDD {
     class SubsystemA {
-        + void subOperation()
+        + subOperation() : void
     }
 
     class SubsystemB {
-        + void subOperation()
+        + subOperation() : void
     }
 
     class SubsystemC {
-        + void subOperation()
+        + subOperation() : void
     }
 }
 
 class Facade {
     __private member__
-    - SubsystemA *ptr_a
-    - SubsystemB *ptr_b
-    - SubsystemC *ptr_c
+    - ptr_a : SubsystemA *
+    - ptr_b : SubsystemB *
+    - ptr_c : SubsystemC *
     __public methods__
-    + void operation_1()
-    + void operation_2()
+    + operation_1() : void
+    + operation_2() : void
 }
 
 client ..> Facade : dependency

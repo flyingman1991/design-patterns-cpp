@@ -2,26 +2,26 @@
 
 interface  Flyweight {
     + {abstract} ~Flyweight() {}
-    + {abstract} void operation() = 0;
+    + {abstract} operation() = 0 : void
 }
 
 class UnsharedConcreteFlyweight {
     - int state
     + UnsharedConcreteFlyweight(const int intrinsic_state)
     + ~UnsharedConcreteFlyweight()
-    + void operation()
+    + operation() : void
 }
 
 class ConcreteFlyweight {
     - int state
     + ConcreteFlyweight(const int all_state)
     + ~ConcreteFlyweight()
-    + void operation()
+    + operation() : void
 }
 
 class FlyweightFactory {
-    - std::map<int, Flyweight*> items
-    + Flyweight *getFlyweight(const int key)
+    - items : std::map<int, Flyweight*>
+    + getFlyweight(const int key) : Flyweight *
 }
 
 UnsharedConcreteFlyweight .up.|> Flyweight : implementation
@@ -50,9 +50,9 @@ end note
 note right of ConcreteFlyweight
     因为要求细粒度，所以不可避免地会使对象数量多且性质相近;
     这就需要将对象信息分为两部分：内部状态和外部状态
-    1) 内部状态: 指对象共享出来的信息，存储在享元信息内部，
+    1) <b>内部状态</b>: 指对象共享出来的信息，存储在享元信息内部，
     不随环境改变
-    2) 外部状态: 依赖的一个标记，随环境的改变而改变，不可
+    2) <b>外部状态</b>: 依赖的一个标记，随环境的改变而改变，不可
     共享
 end note
 
