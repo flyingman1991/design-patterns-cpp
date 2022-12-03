@@ -1,0 +1,59 @@
+@startuml FactoryPattern_Simple
+
+interface Product {
+    + {abstract} ~Product()
+    + {abstract} std::string getName() = 0
+}
+
+class ConcreteProductA {
+    + ~Product()
+    + std::string getName() = 0
+}
+
+class ConcreteProductB {
+    + ~Product()
+    + std::string getName() = 0
+}
+
+interface Creator {
+    + {abstract} ~Creator()
+    + {abstract} Product* createProductA() = 0
+    + {abstract} Product* createProductB() = 0
+    + {abstract} void removeProduct( Product *product ) = 0
+}
+
+class ConcreteCreator {
+    + ~Creator()
+    + Product* createProductA()
+    + Product* createProductB()
+    + void removeProduct( Product *product )
+}
+
+ConcreteProductA ..|> Product : implementation
+ConcreteProductB ..|> Product : implementation
+ConcreteCreator ..|> Creator : implementation
+ConcreteCreator ..> ConcreteProductA : dependency
+ConcreteCreator ..> ConcreteProductB : dependency
+client ..> ConcreteCreator : dependency
+
+note as N1
+    This is similar with <b>Simple-Factory</b> method.
+    One factory can produce all kinds of products
+    according to passed product type.
+    <b>There are some improvement:</b>
+    1. using <b>static</b> method in factory class
+    2. passing a <b>type</b> name instead of different
+    function names
+
+    <b>Disadvantages:</b>
+    Factory has to know all concrete products.
+    if products are changed, factory needs to be
+    modified.
+end note
+
+note left of client
+    client use pointers or references to
+    <b>Creator</b> and <b>Product</b>.
+end note
+
+@enduml

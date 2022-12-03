@@ -1,0 +1,63 @@
+@startuml FactoryPattern_Normal
+
+interface Product {
+    + {abstract} ~Product()
+    + {abstract} std::string getName() = 0
+}
+
+class ConcreteProductA {
+    + ~Product()
+    + std::string getName() = 0
+}
+
+class ConcreteProductB {
+    + ~Product()
+    + std::string getName() = 0
+}
+
+interface Creator {
+    + {abstract} ~Creator()
+    + {abstract} Product* createProduct() = 0
+    + {abstract} void removeProduct( Product *product ) = 0
+}
+
+class ConcreteCreatorA {
+    + ~Creator()
+    + Product* createProduct()
+    + void removeProduct( Product *product )
+}
+
+class ConcreteCreatorB {
+    + ~Creator()
+    + Product* createProduct()
+    + void removeProduct( Product *product )
+}
+
+ConcreteProductA ..|> Product : implementation
+ConcreteProductB ..|> Product : implementation
+ConcreteCreatorA ..|> Creator : implementation
+ConcreteCreatorB ..|> Creator : implementation
+ConcreteCreatorA ..> ConcreteProductA : dependency
+ConcreteCreatorB ..> ConcreteProductB : dependency
+client ..> ConcreteCreatorA : dependency
+client ..> ConcreteCreatorB : dependency
+
+note as N1
+    This is <b>Normal-Factory</b> method.
+    Different factory produce corresponding products.
+
+    <b>Advantages:</b>
+    If products are added, implent a new kinds of
+    concrete factory.
+    Comply with the <b>Open-Close</b> principle.
+
+    <b>Disadvantages:</b>
+    Each new product requires a new factory.
+end note
+
+note left of client
+    client use pointers or references to
+    <b>Creator</b> and <b>Product</b>.
+end note
+
+@enduml
