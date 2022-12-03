@@ -29,4 +29,15 @@ Facade --> SubsystemA : association
 Facade --> SubsystemB : association
 Facade --> SubsystemC : association
 
+note as N1
+    <b>Situation:</b>
+    If Clients need to deal with many objects
+    to complete the desired function, which makes
+    system too complex.
+    Add a new layer to encapsulate each object
+    into a subsystem, then client depends on this
+    new layer only... The changes in subsystem has
+    NO impact on client.
+end note
+
 @enduml
