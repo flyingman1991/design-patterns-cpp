@@ -1,0 +1,47 @@
+@startuml StatePattern
+
+class State {
+    + {abstract} ~State()
+    + {abstract} handle() = 0 : void
+}
+
+class ConcreteStateA {
+    + ~ConcreteStateA()
+    + handle() : void
+}
+
+class ConcreteStateB {
+    + ~ConcreteStateB()
+    + handle() : void
+}
+
+ConcreteStateA -up-|> State : generalization
+ConcreteStateB -up-|> State : generalization
+
+class Context {
+    - state : State *
+    + setState(State * const pState) : void
+    + request() : void
+}
+Context --> State : association
+client ..> Context : dependency
+
+note as N1
+    <b>Purpose</b>
+    The behavior of an object depends on its state (property),
+    and its related behavior can be changed according to its
+    state change.
+    This pattern is applicable to complex "state if-else" case
+
+    <b>State Method</b> is similar to <b>Strategy Method</b>,
+    but focuses on different states.
+    It can be realized via simple polymorphism (多态特性).
+end note
+
+note right of Context
+    Context provides <b>setter injection </b>
+    to set concrete state;
+    <b>request function</b>calls State::handle()
+end note
+
+@enduml

@@ -17,9 +17,9 @@
 class Strategy
 {
 public:
-  virtual ~Strategy() { /* ... */ }
-  virtual void algorithmInterface() = 0;
-  // ...
+    virtual ~Strategy() { /* ... */ }
+    virtual void algorithmInterface() = 0;
+    // ...
 };
 
 /*
@@ -29,37 +29,37 @@ public:
 class ConcreteStrategyA : public Strategy
 {
 public:
-  ~ConcreteStrategyA() { /* ... */ }
-  
-  void algorithmInterface()
-  {
-    std::cout << "Concrete Strategy A" << std::endl;
-  }
-  // ...
+    ~ConcreteStrategyA() { /* ... */ }
+
+    void algorithmInterface()
+    {
+      std::cout << "Concrete Strategy A" << std::endl;
+    }
+    // ...
 };
 
 class ConcreteStrategyB : public Strategy
 {
 public:
-  ~ConcreteStrategyB() { /* ... */ }
-  
-  void algorithmInterface()
-  {
-    std::cout << "Concrete Strategy B" << std::endl;
-  }
-  // ...
+    ~ConcreteStrategyB() { /* ... */ }
+
+    void algorithmInterface()
+    {
+      std::cout << "Concrete Strategy B" << std::endl;
+    }
+    // ...
 };
 
 class ConcreteStrategyC : public Strategy
 {
 public:
-  ~ConcreteStrategyC() { /* ... */ }
-  
-  void algorithmInterface()
-  {
-    std::cout << "Concrete Strategy C" << std::endl;
-  }
-  // ...
+    ~ConcreteStrategyC() { /* ... */ }
+
+    void algorithmInterface()
+    {
+      std::cout << "Concrete Strategy C" << std::endl;
+    }
+    // ...
 };
 
 /*
@@ -69,29 +69,31 @@ public:
 class Context
 {
 public:
-  Context( Strategy* const s ) : strategy( s ) {}
-  
-  ~Context()
-  {
-    delete strategy;
-  }
-  
-  void contextInterface()
-  {
-    strategy->algorithmInterface();
-  }
-  // ...
+    // construction injection,
+    // setter injection is also okay
+    Context(Strategy* const s) : strategy(s) {}
+
+    ~Context()
+    {
+      delete strategy;
+    }
+
+    void contextInterface()
+    {
+      strategy->algorithmInterface();
+    }
+    // ...
 
 private:
-  Strategy *strategy;
-  // ...
+    Strategy *strategy;
+    // ...
 };
 
 
 int main()
 {
-  Context context( new ConcreteStrategyA() );
-  context.contextInterface();
-  
-  return 0;
+    Context context(new ConcreteStrategyA());
+    context.contextInterface();
+
+    return 0;
 }
